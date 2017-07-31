@@ -36,8 +36,16 @@ def compute(C=1.0, kernel='linear'):
   accuracy = accuracy_score(labels_test, test_predict)
   print('The accuracy of SVC EmailClassifier is {}'.format(accuracy * 100))
   print("prediction time: {}s".format(round(time() - t1, 3)))
+  return test_predict
 
 compute()
+
+print()
+print('Optimized for `rbf` with C=10000')
+chris_predict = compute(C=10000., kernel='rbf')
+
+import numpy as np
+print('Chris predition in test set: {}'.format(np.count_nonzero(chris_predict)))
 
 print()
 print('Slice training data to 1% of original')
@@ -63,10 +71,12 @@ compute(C=1000., kernel='rbf')
 
 print()
 print('Change kernal to `rbf` & `C`=10000.')
-compute(C=10000., kernel='rbf')
+test_predict = compute(C=10000., kernel='rbf')
+
+print()
+print('Prediction for 10, 26, 50th test')
+print('Test Prediction for (10, 26, 50): {}'.format([test_predict[i] for i in (10, 26, 50)]))
 
 #
 #
 #########################################################
-
-
