@@ -44,11 +44,18 @@ from sklearn.metrics import accuracy_score
 clf = DecisionTreeClassifier()
 clf.fit(features_train, labels_train)
 
+feature_names = vectorizer.get_feature_names()
+outliers = []
 pos, max_imp = 0, 0
 for idx, weight in enumerate(clf.feature_importances_):
+  if weight >= 0.2:
+    outliers.append((idx, weight, feature_names[idx]))
   if weight > max_imp:
     pos, max_imp = idx, weight
 
+print('>>> OUTLIERS <<<')
+print([i for i in outliers])
+
 print('Accuracy for overfit DTC: ', accuracy_score(labels_test, clf.predict(features_test)))
 print('Highest feature importance: ', (pos, max_imp))
-print('Most powerful word: ', vectorizer.get_feature_names()[pos])
+print('Most powerful word: ', feature_names[pos])

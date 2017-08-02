@@ -54,6 +54,9 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
             ### ["sara", "shackleton", "chris", "germani"]
             text = re.sub(r'sara|shackleton|chris|germani', '', stemmed)
 
+            ### remove outlier (email signature) // |houectect|houston|fax|houect
+            text = re.sub(r'sshacklensf|cgermannsf', '', text)
+
             ### append the text to word_data
             word_data.append(text)
 
