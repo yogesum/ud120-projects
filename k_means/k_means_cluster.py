@@ -49,7 +49,7 @@ data_dict.pop("TOTAL", 0)
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2, 'total_payments']
+features_list = [poi, feature_1, feature_2] #, 'total_payments']
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -62,14 +62,15 @@ pred = clf.predict(finance_features)
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
-for f1, f2, _ in finance_features:
-    plt.scatter( f1, f2 , _)
+# for f1, f2, _ in finance_features:
+for f1, f2 in finance_features:
+    plt.scatter( f1, f2 )
 plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
-
-
+salary_sort = sorted(filter(lambda x: x != 'NaN', [v['salary'] for k, v in data_dict.items()]))
+print('Min salary: ', salary_sort[0], ' Max Salary: ', salary_sort[-1])
 
 
 ### rename the "name" parameter when you change the number of features
