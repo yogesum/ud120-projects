@@ -15,8 +15,6 @@ sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
 
-
-
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
 
@@ -53,6 +51,13 @@ features_list = [poi, feature_1, feature_2] #, 'total_payments']
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
+# feature scaling
+FEATURE_SCALE = True
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+scaler.fit(finance_features)
+print('After feature scalling: (salary, stock_options) ', scaler.transform([[2e5, 1e6]]))
+
 from sklearn.cluster import KMeans
 clf = KMeans(n_clusters=2)
 clf.fit(finance_features, poi)
@@ -76,6 +81,6 @@ print('Min salary: ', salary_sort[0], ' Max Salary: ', salary_sort[-1])
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(pred, finance_features, poi, mark_poi=False, name="clusters_"+str(len(features_list))+".pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print("no predictions object named pred found, no clusters to plot")
